@@ -1,0 +1,36 @@
+{
+  "name": "slacker775/mobility-ws",
+  "description": "Netmotion Mobility Web Service Library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "David Hollis",
+      "email": "dhollis@davehollis.com"
+    }
+  ],
+  "require": {
+    "jane-php/open-api-runtime": "~6.3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mobility\\Factory\\": "src/Factory/",
+      "Mobility\\": "generated/"
+    }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "*",
+    "symfony/flex": "^1.13",
+    "jane-php/open-api-3": "~6.3.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "nyholm/psr7": "*",
+    "monolog/monolog": "^2.3",
+    "php-http/logger-plugin": "^1.2",
+    "symfony/http-client": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": "true"
+    }
+  }
+}

@@ -1,0 +1,607 @@
+openapi: 3.0.0
+info:
+  title: 'Netmotion Mobility Web Services API'
+  version: '11.75'
+security:
+  - basicAuth: []
+servers:
+  - url: '{server}'
+    variables:
+      server:
+        default: https://api.example.com
+paths:
+  /WebService/ConnectionStatus:
+    parameters: []
+    get:
+      tags:
+        - info
+      parameters:
+        - in: query
+          name: deviceId
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: deviceName
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: group
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: devicesPerPage
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionStatusResponse'
+      operationId: getConnectionStatus
+  /WebService/Device:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: group
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: user
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: state
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: devicesPerPage
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceResponse'
+      operationId: getDevice
+  /WebService/NetworkRoaming:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: deviceGroup
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: userGroup
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkRoamingResponse'
+      operationId: getNetworkRoaming
+  /WebService/NetworkUsage:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: user
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: userGroup
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: startDate
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkUsageResponse'
+      operationId: getNetworkUsage
+  /WebService/PoolStatus:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: lowBatteryThreshold
+          description: The threshold (in terms of percentage) at which a device is considered to be low on batteries. The default is 10.
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoolStatusResponse'
+      operationId: getPoolStatus
+  /WebService/SessionStatus:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: serverName
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: filterBy
+          required: false
+          schema:
+            type: string
+            enum:
+              - nacremediate
+              - nacwarn
+              - onbattery
+              - reachable
+              - unattended
+              - unreachable
+              - authmode
+              - cpu
+              - device
+              - lowbattery
+              - model
+              - os
+              - osver
+              - pid
+              - plat
+              - pop
+              - user
+              - version
+              - vip
+        - in: query
+          name: filterValue
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionStatusResponse'
+      operationId: getSessionStatus
+  /WebService/User:
+    parameters: []
+    get:
+      tags:
+        - info    
+      parameters:
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: group
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: quarantined
+          required: false
+          schema:
+            type: boolean
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: usersPerPage
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+      operationId: getUser
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Address:
+      type: object
+      properties:
+        ip:
+          type: string
+        port:
+          type: integer
+    ConnectionState:
+      type: object
+      properties:
+        pop:
+          type: string
+        serverMachineName:
+          type: string
+        state:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        userName:
+          type: string
+        vip:
+          type: string
+    ConnectionStatus:
+      type: object
+      properties:
+        connectionState:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionState'
+        deviceName:
+          type: string
+        devicePid:
+          type: string
+        firstTimestamp:
+          type: string
+          format: date-time
+        lastUser:
+          type: string
+    ConnectionStatusResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        connectionStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectionStatus'
+        errorMessage:
+          type: string
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+    Device:
+      type: object
+      properties:
+        deviceGroup:
+          type: string
+        disconnectReason:
+          type: string
+        lastConnect:
+          type: string
+          format: date-time
+        lastDisconnect:
+          type: string
+          format: date-time
+        lastUser:
+          type: string
+        localityVersion:
+          type: string
+        mobilityVersion:
+          type: string
+        name:
+          type: string
+        operatingSystem:
+          type: string
+        pid:
+          type: string
+        registered:
+          type: string
+          format: date-time
+    DeviceResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+        device:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+    NetworkRoaming:
+      type: object
+      properties:
+        deviceName:
+          type: string
+        devicePid:
+          type: string
+        roamingCount:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+    NetworkRoamingResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        networkRoaming:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkRoaming'
+    NetworkUsage:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        usage:
+          type: number
+        usedBy:
+          type: string
+    NetworkUsageResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        networkUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/NetworkUsage'
+    PoolStatus:
+      type: object
+      properties:
+        batteryPowered:
+          type: integer
+        connected:
+          type: integer
+        connectionsLifetime:
+          type: integer
+        connectionsPeak:
+          type: integer
+        disconnected:
+          type: integer
+        lowBatteries:
+          type: integer
+        NACdisconnected:
+          type: integer
+        NACquarantined:
+          type: integer
+        NACremediated:
+          type: integer
+        NACwarned:
+          type: integer
+        newDevices:
+          type: integer
+        newUsers:
+          type: integer
+        quarantinedDevices:
+          type: integer
+        registered:
+          type: integer
+        registeredUsers:
+          type: integer
+        sessions:
+          type: integer
+        unreachable:
+          type: integer
+    PoolStatusResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        poolStatus:
+            $ref: '#/components/schemas/PoolStatus'
+        serverStatus:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServerStatus'
+    ServerStatus:
+      type: object
+      properties:
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+        connectionPeak:
+          type: integer
+        connections:
+          type: integer
+        cpu:
+          type: string
+        name:
+          type: string
+        network:
+          type: string
+        nonPaged:
+          type: string
+        paged:
+          type: string
+        pid:
+          type: string
+        status:
+          type: string
+        uptimeMinutes:
+          type: string
+        utilization:
+          type: string
+        version:
+          type: string
+    Session:
+      type: object
+      properties:
+        battery:
+          type: integer
+        bssid:
+          type: string
+        connectTime:
+          type: string
+          format: date-time
+        cpu:
+          type: string
+        description:
+          type: string
+        deviceGroup:
+          type: string
+        deviceName:
+          type: string
+        interfaceAddress:
+          type: string
+        interfaceName:
+          type: string
+        interfaceSpeed:
+          type: string
+        interfaceType:
+          type: string
+        mobilityVersion:
+          type: string
+        model:
+          type: string
+        nacLevel:
+          type: string
+        nacRuleset:
+          type: string
+        os:
+          type: string
+        pid:
+          type: string
+        plat:
+          type: string
+        policyRuleset:
+          type: string
+        popAddress:
+          type: string
+        powerSource:
+          type: string
+        serverName:
+          type: string
+        serverPid:
+          type: string
+        ssid:
+          type: string
+        status:
+          type: string
+        totalBytes:
+          type: integer
+        userGroup:
+          type: string
+        userName:
+          type: string
+        virtualAddress:
+          type: string
+    SessionStatusResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        session:
+          type: array
+          items:
+            $ref: '#/components/schemas/Session'
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        userGroup:
+          type: string
+        lastDevice:
+          type: string
+        lastConnect:
+          type: string
+          format: date-time
+        firstLogon:
+          type: string
+          format: date-time
+        staticAddress:
+          type: string
+          format: ipv4
+    UserResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+        
