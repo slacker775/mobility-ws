@@ -13,7 +13,7 @@ class ConnectionState
     /**
      * 
      *
-     * @var string
+     * @var string|null
      */
     protected $serverMachineName;
     /**
@@ -31,7 +31,7 @@ class ConnectionState
     /**
      * 
      *
-     * @var string
+     * @var string|null
      */
     protected $userName;
     /**
@@ -64,20 +64,20 @@ class ConnectionState
     /**
      * 
      *
-     * @return string
+     * @return string|null
      */
-    public function getServerMachineName() : string
+    public function getServerMachineName() : ?string
     {
         return $this->serverMachineName;
     }
     /**
      * 
      *
-     * @param string $serverMachineName
+     * @param string|null $serverMachineName
      *
      * @return self
      */
-    public function setServerMachineName(string $serverMachineName) : self
+    public function setServerMachineName(?string $serverMachineName) : self
     {
         $this->serverMachineName = $serverMachineName;
         return $this;
@@ -127,20 +127,20 @@ class ConnectionState
     /**
      * 
      *
-     * @return string
+     * @return string|null
      */
-    public function getUserName() : string
+    public function getUserName() : ?string
     {
         return $this->userName;
     }
     /**
      * 
      *
-     * @param string $userName
+     * @param string|null $userName
      *
      * @return self
      */
-    public function setUserName(string $userName) : self
+    public function setUserName(?string $userName) : self
     {
         $this->userName = $userName;
         return $this;

@@ -79,7 +79,7 @@ class Session
     /**
      * 
      *
-     * @var string
+     * @var string|null
      */
     protected $model;
     /**
@@ -433,20 +433,20 @@ class Session
     /**
      * 
      *
-     * @return string
+     * @return string|null
      */
-    public function getModel() : string
+    public function getModel() : ?string
     {
         return $this->model;
     }
     /**
      * 
      *
-     * @param string $model
+     * @param string|null $model
      *
      * @return self
      */
-    public function setModel(string $model) : self
+    public function setModel(?string $model) : self
     {
         $this->model = $model;
         return $this;
