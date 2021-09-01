@@ -72,8 +72,11 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if (\array_key_exists('mobilityVersion', $data)) {
             $object->setMobilityVersion($data['mobilityVersion']);
         }
-        if (\array_key_exists('model', $data)) {
+        if (\array_key_exists('model', $data) && $data['model'] !== null) {
             $object->setModel($data['model']);
+        }
+        elseif (\array_key_exists('model', $data) && $data['model'] === null) {
+            $object->setModel(null);
         }
         if (\array_key_exists('nacLevel', $data)) {
             $object->setNacLevel($data['nacLevel']);

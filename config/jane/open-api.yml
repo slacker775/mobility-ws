@@ -302,6 +302,7 @@ components:
           type: string
         serverMachineName:
           type: string
+          nullable: true
         state:
           type: string
         timestamp:
@@ -309,6 +310,7 @@ components:
           format: date-time
         userName:
           type: string
+          nullable: true
         vip:
           type: string
     ConnectionStatus:
@@ -327,6 +329,7 @@ components:
           format: date-time
         lastUser:
           type: string
+          nullable: true
     ConnectionStatusResponse:
       type: object
       properties:
@@ -352,9 +355,11 @@ components:
         lastConnect:
           type: string
           format: date-time
+          nullable: true
         lastDisconnect:
           type: string
           format: date-time
+          nullable: true
         lastUser:
           type: string
         localityVersion:
@@ -532,6 +537,7 @@ components:
           type: string
         model:
           type: string
+          nullable: true
         nacLevel:
           type: string
         nacRuleset:

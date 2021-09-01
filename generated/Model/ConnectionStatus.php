@@ -31,7 +31,7 @@ class ConnectionStatus
     /**
      * 
      *
-     * @var string
+     * @var string|null
      */
     protected $lastUser;
     /**
@@ -121,20 +121,20 @@ class ConnectionStatus
     /**
      * 
      *
-     * @return string
+     * @return string|null
      */
-    public function getLastUser() : string
+    public function getLastUser() : ?string
     {
         return $this->lastUser;
     }
     /**
      * 
      *
-     * @param string $lastUser
+     * @param string|null $lastUser
      *
      * @return self
      */
-    public function setLastUser(string $lastUser) : self
+    public function setLastUser(?string $lastUser) : self
     {
         $this->lastUser = $lastUser;
         return $this;

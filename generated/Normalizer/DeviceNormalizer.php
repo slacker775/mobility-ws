@@ -42,11 +42,17 @@ class DeviceNormalizer implements DenormalizerInterface, NormalizerInterface, De
         if (\array_key_exists('disconnectReason', $data)) {
             $object->setDisconnectReason($data['disconnectReason']);
         }
-        if (\array_key_exists('lastConnect', $data)) {
+        if (\array_key_exists('lastConnect', $data) && $data['lastConnect'] !== null) {
             $object->setLastConnect(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['lastConnect']));
         }
-        if (\array_key_exists('lastDisconnect', $data)) {
+        elseif (\array_key_exists('lastConnect', $data) && $data['lastConnect'] === null) {
+            $object->setLastConnect(null);
+        }
+        if (\array_key_exists('lastDisconnect', $data) && $data['lastDisconnect'] !== null) {
             $object->setLastDisconnect(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['lastDisconnect']));
+        }
+        elseif (\array_key_exists('lastDisconnect', $data) && $data['lastDisconnect'] === null) {
+            $object->setLastDisconnect(null);
         }
         if (\array_key_exists('lastUser', $data)) {
             $object->setLastUser($data['lastUser']);

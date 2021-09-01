@@ -39,8 +39,11 @@ class ConnectionStateNormalizer implements DenormalizerInterface, NormalizerInte
         if (\array_key_exists('pop', $data)) {
             $object->setPop($data['pop']);
         }
-        if (\array_key_exists('serverMachineName', $data)) {
+        if (\array_key_exists('serverMachineName', $data) && $data['serverMachineName'] !== null) {
             $object->setServerMachineName($data['serverMachineName']);
+        }
+        elseif (\array_key_exists('serverMachineName', $data) && $data['serverMachineName'] === null) {
+            $object->setServerMachineName(null);
         }
         if (\array_key_exists('state', $data)) {
             $object->setState($data['state']);
@@ -48,8 +51,11 @@ class ConnectionStateNormalizer implements DenormalizerInterface, NormalizerInte
         if (\array_key_exists('timestamp', $data)) {
             $object->setTimestamp(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['timestamp']));
         }
-        if (\array_key_exists('userName', $data)) {
+        if (\array_key_exists('userName', $data) && $data['userName'] !== null) {
             $object->setUserName($data['userName']);
+        }
+        elseif (\array_key_exists('userName', $data) && $data['userName'] === null) {
+            $object->setUserName(null);
         }
         if (\array_key_exists('vip', $data)) {
             $object->setVip($data['vip']);

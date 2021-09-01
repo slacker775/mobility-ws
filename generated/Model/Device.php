@@ -19,13 +19,13 @@ class Device
     /**
      * 
      *
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $lastConnect;
     /**
      * 
      *
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $lastDisconnect;
     /**
@@ -115,20 +115,20 @@ class Device
     /**
      * 
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getLastConnect() : \DateTime
+    public function getLastConnect() : ?\DateTime
     {
         return $this->lastConnect;
     }
     /**
      * 
      *
-     * @param \DateTime $lastConnect
+     * @param \DateTime|null $lastConnect
      *
      * @return self
      */
-    public function setLastConnect(\DateTime $lastConnect) : self
+    public function setLastConnect(?\DateTime $lastConnect) : self
     {
         $this->lastConnect = $lastConnect;
         return $this;
@@ -136,20 +136,20 @@ class Device
     /**
      * 
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getLastDisconnect() : \DateTime
+    public function getLastDisconnect() : ?\DateTime
     {
         return $this->lastDisconnect;
     }
     /**
      * 
      *
-     * @param \DateTime $lastDisconnect
+     * @param \DateTime|null $lastDisconnect
      *
      * @return self
      */
-    public function setLastDisconnect(\DateTime $lastDisconnect) : self
+    public function setLastDisconnect(?\DateTime $lastDisconnect) : self
     {
         $this->lastDisconnect = $lastDisconnect;
         return $this;

@@ -52,8 +52,11 @@ class ConnectionStatusNormalizer implements DenormalizerInterface, NormalizerInt
         if (\array_key_exists('firstTimestamp', $data)) {
             $object->setFirstTimestamp(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['firstTimestamp']));
         }
-        if (\array_key_exists('lastUser', $data)) {
+        if (\array_key_exists('lastUser', $data) && $data['lastUser'] !== null) {
             $object->setLastUser($data['lastUser']);
+        }
+        elseif (\array_key_exists('lastUser', $data) && $data['lastUser'] === null) {
+            $object->setLastUser(null);
         }
         return $object;
     }
