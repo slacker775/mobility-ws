@@ -471,7 +471,9 @@ components:
         type:
           type: string
         poolStatus:
-            $ref: '#/components/schemas/PoolStatus'
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/PoolStatus'
         serverStatus:
           type: array
           items:
