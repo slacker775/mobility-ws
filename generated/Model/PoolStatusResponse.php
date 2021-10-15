@@ -13,7 +13,7 @@ class PoolStatusResponse
     /**
      * 
      *
-     * @var PoolStatus
+     * @var mixed|null
      */
     protected $poolStatus;
     /**
@@ -46,20 +46,20 @@ class PoolStatusResponse
     /**
      * 
      *
-     * @return PoolStatus
+     * @return mixed
      */
-    public function getPoolStatus() : PoolStatus
+    public function getPoolStatus()
     {
         return $this->poolStatus;
     }
     /**
      * 
      *
-     * @param PoolStatus $poolStatus
+     * @param mixed $poolStatus
      *
      * @return self
      */
-    public function setPoolStatus(PoolStatus $poolStatus) : self
+    public function setPoolStatus($poolStatus) : self
     {
         $this->poolStatus = $poolStatus;
         return $this;
