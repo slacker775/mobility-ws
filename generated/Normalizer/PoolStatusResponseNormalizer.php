@@ -39,11 +39,8 @@ class PoolStatusResponseNormalizer implements DenormalizerInterface, NormalizerI
         if (\array_key_exists('type', $data)) {
             $object->setType($data['type']);
         }
-        if (\array_key_exists('poolStatus', $data) && $data['poolStatus'] !== null) {
-            $object->setPoolStatus($data['poolStatus']);
-        }
-        elseif (\array_key_exists('poolStatus', $data) && $data['poolStatus'] === null) {
-            $object->setPoolStatus(null);
+        if (\array_key_exists('poolStatus', $data)) {
+            $object->setPoolStatus($this->denormalizer->denormalize($data['poolStatus'], 'Mobility\\Model\\PoolStatus', 'json', $context));
         }
         if (\array_key_exists('serverStatus', $data)) {
             $values = array();
@@ -61,7 +58,7 @@ class PoolStatusResponseNormalizer implements DenormalizerInterface, NormalizerI
             $data['type'] = $object->getType();
         }
         if (null !== $object->getPoolStatus()) {
-            $data['poolStatus'] = $object->getPoolStatus();
+            $data['poolStatus'] = $this->normalizer->normalize($object->getPoolStatus(), 'json', $context);
         }
         if (null !== $object->getServerStatus()) {
             $values = array();
