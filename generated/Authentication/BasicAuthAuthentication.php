@@ -2,7 +2,7 @@
 
 namespace Mobility\Authentication;
 
-class BasicAuthAuthentication implements \Jane\OpenApiRuntime\Client\AuthenticationPlugin
+class BasicAuthAuthentication implements \Jane\Component\OpenApiRuntime\Client\AuthenticationPlugin
 {
     private $username;
     private $password;
