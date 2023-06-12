@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class ConnectionStatusResponse
+class ConnectionStatusResponse extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -52,6 +60,7 @@ class ConnectionStatusResponse
      */
     public function setType(string $type) : self
     {
+        $this->initialized['type'] = true;
         $this->type = $type;
         return $this;
     }
@@ -73,6 +82,7 @@ class ConnectionStatusResponse
      */
     public function setConnectionStatus(array $connectionStatus) : self
     {
+        $this->initialized['connectionStatus'] = true;
         $this->connectionStatus = $connectionStatus;
         return $this;
     }
@@ -94,6 +104,7 @@ class ConnectionStatusResponse
      */
     public function setErrorMessage(string $errorMessage) : self
     {
+        $this->initialized['errorMessage'] = true;
         $this->errorMessage = $errorMessage;
         return $this;
     }
@@ -115,6 +126,7 @@ class ConnectionStatusResponse
      */
     public function setCurrentPage(int $currentPage) : self
     {
+        $this->initialized['currentPage'] = true;
         $this->currentPage = $currentPage;
         return $this;
     }
@@ -136,6 +148,7 @@ class ConnectionStatusResponse
      */
     public function setTotalPages(int $totalPages) : self
     {
+        $this->initialized['totalPages'] = true;
         $this->totalPages = $totalPages;
         return $this;
     }

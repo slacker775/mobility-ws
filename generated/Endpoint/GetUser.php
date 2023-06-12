@@ -42,11 +42,11 @@ class GetUser extends \Mobility\Runtime\Client\BaseEndpoint implements \Mobility
         $optionsResolver->setDefined(array('name', 'group', 'quarantined', 'page', 'usersPerPage'));
         $optionsResolver->setRequired(array());
         $optionsResolver->setDefaults(array());
-        $optionsResolver->setAllowedTypes('name', array('string'));
-        $optionsResolver->setAllowedTypes('group', array('string'));
-        $optionsResolver->setAllowedTypes('quarantined', array('bool'));
-        $optionsResolver->setAllowedTypes('page', array('int'));
-        $optionsResolver->setAllowedTypes('usersPerPage', array('int'));
+        $optionsResolver->addAllowedTypes('name', array('string'));
+        $optionsResolver->addAllowedTypes('group', array('string'));
+        $optionsResolver->addAllowedTypes('quarantined', array('bool'));
+        $optionsResolver->addAllowedTypes('page', array('int'));
+        $optionsResolver->addAllowedTypes('usersPerPage', array('int'));
         return $optionsResolver;
     }
     /**
@@ -55,8 +55,10 @@ class GetUser extends \Mobility\Runtime\Client\BaseEndpoint implements \Mobility
      *
      * @return null|\Mobility\Model\UserResponse
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Mobility\\Model\\UserResponse', 'json');
         }

@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class ConnectionStatus
+class ConnectionStatus extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -52,6 +60,7 @@ class ConnectionStatus
      */
     public function setConnectionState(array $connectionState) : self
     {
+        $this->initialized['connectionState'] = true;
         $this->connectionState = $connectionState;
         return $this;
     }
@@ -73,6 +82,7 @@ class ConnectionStatus
      */
     public function setDeviceName(string $deviceName) : self
     {
+        $this->initialized['deviceName'] = true;
         $this->deviceName = $deviceName;
         return $this;
     }
@@ -94,6 +104,7 @@ class ConnectionStatus
      */
     public function setDevicePid(string $devicePid) : self
     {
+        $this->initialized['devicePid'] = true;
         $this->devicePid = $devicePid;
         return $this;
     }
@@ -115,6 +126,7 @@ class ConnectionStatus
      */
     public function setFirstTimestamp(\DateTime $firstTimestamp) : self
     {
+        $this->initialized['firstTimestamp'] = true;
         $this->firstTimestamp = $firstTimestamp;
         return $this;
     }
@@ -136,6 +148,7 @@ class ConnectionStatus
      */
     public function setLastUser(?string $lastUser) : self
     {
+        $this->initialized['lastUser'] = true;
         $this->lastUser = $lastUser;
         return $this;
     }

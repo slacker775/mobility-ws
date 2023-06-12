@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class NetworkUsage
+class NetworkUsage extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -40,6 +48,7 @@ class NetworkUsage
      */
     public function setTimestamp(\DateTime $timestamp) : self
     {
+        $this->initialized['timestamp'] = true;
         $this->timestamp = $timestamp;
         return $this;
     }
@@ -61,6 +70,7 @@ class NetworkUsage
      */
     public function setUsage(float $usage) : self
     {
+        $this->initialized['usage'] = true;
         $this->usage = $usage;
         return $this;
     }
@@ -82,6 +92,7 @@ class NetworkUsage
      */
     public function setUsedBy(string $usedBy) : self
     {
+        $this->initialized['usedBy'] = true;
         $this->usedBy = $usedBy;
         return $this;
     }

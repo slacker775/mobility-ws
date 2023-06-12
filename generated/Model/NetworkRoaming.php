@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class NetworkRoaming
+class NetworkRoaming extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -46,6 +54,7 @@ class NetworkRoaming
      */
     public function setDeviceName(string $deviceName) : self
     {
+        $this->initialized['deviceName'] = true;
         $this->deviceName = $deviceName;
         return $this;
     }
@@ -67,6 +76,7 @@ class NetworkRoaming
      */
     public function setDevicePid(string $devicePid) : self
     {
+        $this->initialized['devicePid'] = true;
         $this->devicePid = $devicePid;
         return $this;
     }
@@ -88,6 +98,7 @@ class NetworkRoaming
      */
     public function setRoamingCount(int $roamingCount) : self
     {
+        $this->initialized['roamingCount'] = true;
         $this->roamingCount = $roamingCount;
         return $this;
     }
@@ -109,6 +120,7 @@ class NetworkRoaming
      */
     public function setTimestamp(\DateTime $timestamp) : self
     {
+        $this->initialized['timestamp'] = true;
         $this->timestamp = $timestamp;
         return $this;
     }

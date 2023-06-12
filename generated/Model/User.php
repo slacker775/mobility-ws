@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class User
+class User extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -58,6 +66,7 @@ class User
      */
     public function setName(string $name) : self
     {
+        $this->initialized['name'] = true;
         $this->name = $name;
         return $this;
     }
@@ -79,6 +88,7 @@ class User
      */
     public function setUserGroup(string $userGroup) : self
     {
+        $this->initialized['userGroup'] = true;
         $this->userGroup = $userGroup;
         return $this;
     }
@@ -100,6 +110,7 @@ class User
      */
     public function setLastDevice(string $lastDevice) : self
     {
+        $this->initialized['lastDevice'] = true;
         $this->lastDevice = $lastDevice;
         return $this;
     }
@@ -121,6 +132,7 @@ class User
      */
     public function setLastConnect(\DateTime $lastConnect) : self
     {
+        $this->initialized['lastConnect'] = true;
         $this->lastConnect = $lastConnect;
         return $this;
     }
@@ -142,6 +154,7 @@ class User
      */
     public function setFirstLogon(\DateTime $firstLogon) : self
     {
+        $this->initialized['firstLogon'] = true;
         $this->firstLogon = $firstLogon;
         return $this;
     }
@@ -163,6 +176,7 @@ class User
      */
     public function setStaticAddress(string $staticAddress) : self
     {
+        $this->initialized['staticAddress'] = true;
         $this->staticAddress = $staticAddress;
         return $this;
     }

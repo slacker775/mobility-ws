@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class PoolStatusResponse
+class PoolStatusResponse extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -21,7 +29,7 @@ class PoolStatusResponse
      *
      * @var ServerStatus[]
      */
-    protected $serverStatus;
+    protected $serverStatuses;
     /**
      * 
      *
@@ -40,6 +48,7 @@ class PoolStatusResponse
      */
     public function setType(string $type) : self
     {
+        $this->initialized['type'] = true;
         $this->type = $type;
         return $this;
     }
@@ -61,6 +70,7 @@ class PoolStatusResponse
      */
     public function setPoolStatus(PoolStatus $poolStatus) : self
     {
+        $this->initialized['poolStatus'] = true;
         $this->poolStatus = $poolStatus;
         return $this;
     }
@@ -69,20 +79,21 @@ class PoolStatusResponse
      *
      * @return ServerStatus[]
      */
-    public function getServerStatus() : array
+    public function getServerStatuses() : array
     {
-        return $this->serverStatus;
+        return $this->serverStatuses;
     }
     /**
      * 
      *
-     * @param ServerStatus[] $serverStatus
+     * @param ServerStatus[] $serverStatuses
      *
      * @return self
      */
-    public function setServerStatus(array $serverStatus) : self
+    public function setServerStatuses(array $serverStatuses) : self
     {
-        $this->serverStatus = $serverStatus;
+        $this->initialized['serverStatuses'] = true;
+        $this->serverStatuses = $serverStatuses;
         return $this;
     }
 }

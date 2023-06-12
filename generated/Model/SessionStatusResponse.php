@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class SessionStatusResponse
+class SessionStatusResponse extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -34,6 +42,7 @@ class SessionStatusResponse
      */
     public function setType(string $type) : self
     {
+        $this->initialized['type'] = true;
         $this->type = $type;
         return $this;
     }
@@ -55,6 +64,7 @@ class SessionStatusResponse
      */
     public function setSession(array $session) : self
     {
+        $this->initialized['session'] = true;
         $this->session = $session;
         return $this;
     }

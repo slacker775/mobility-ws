@@ -4,6 +4,7 @@ namespace Mobility\Normalizer;
 
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Mobility\Runtime\Normalizer\CheckArray;
+use Mobility\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -16,14 +17,18 @@ class NetworkRoamingNormalizer implements DenormalizerInterface, NormalizerInter
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
-    public function supportsDenormalization($data, $type, $format = null)
+    use ValidatorTrait;
+    public function supportsDenormalization($data, $type, $format = null, array $context = array()) : bool
     {
         return $type === 'Mobility\\Model\\NetworkRoaming';
     }
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null, array $context = array()) : bool
     {
         return is_object($data) && get_class($data) === 'Mobility\\Model\\NetworkRoaming';
     }
+    /**
+     * @return mixed
+     */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
         if (isset($data['$ref'])) {
@@ -38,32 +43,49 @@ class NetworkRoamingNormalizer implements DenormalizerInterface, NormalizerInter
         }
         if (\array_key_exists('deviceName', $data)) {
             $object->setDeviceName($data['deviceName']);
+            unset($data['deviceName']);
         }
         if (\array_key_exists('devicePid', $data)) {
             $object->setDevicePid($data['devicePid']);
+            unset($data['devicePid']);
         }
         if (\array_key_exists('roamingCount', $data)) {
             $object->setRoamingCount($data['roamingCount']);
+            unset($data['roamingCount']);
         }
         if (\array_key_exists('timestamp', $data)) {
             $object->setTimestamp(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['timestamp']));
+            unset($data['timestamp']);
+        }
+        foreach ($data as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $object[$key] = $value;
+            }
         }
         return $object;
     }
+    /**
+     * @return array|string|int|float|bool|\ArrayObject|null
+     */
     public function normalize($object, $format = null, array $context = array())
     {
         $data = array();
-        if (null !== $object->getDeviceName()) {
+        if ($object->isInitialized('deviceName') && null !== $object->getDeviceName()) {
             $data['deviceName'] = $object->getDeviceName();
         }
-        if (null !== $object->getDevicePid()) {
+        if ($object->isInitialized('devicePid') && null !== $object->getDevicePid()) {
             $data['devicePid'] = $object->getDevicePid();
         }
-        if (null !== $object->getRoamingCount()) {
+        if ($object->isInitialized('roamingCount') && null !== $object->getRoamingCount()) {
             $data['roamingCount'] = $object->getRoamingCount();
         }
-        if (null !== $object->getTimestamp()) {
+        if ($object->isInitialized('timestamp') && null !== $object->getTimestamp()) {
             $data['timestamp'] = $object->getTimestamp()->format('Y-m-d\\TH:i:sP');
+        }
+        foreach ($object as $key => $value) {
+            if (preg_match('/.*/', (string) $key)) {
+                $data[$key] = $value;
+            }
         }
         return $data;
     }

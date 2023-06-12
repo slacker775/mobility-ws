@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class PoolStatus
+class PoolStatus extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -28,6 +36,18 @@ class PoolStatus
      * @var int
      */
     protected $connectionsPeak;
+    /**
+     * 
+     *
+     * @var int
+     */
+    protected $deviceLicensesAvailable;
+    /**
+     * 
+     *
+     * @var int
+     */
+    protected $deviceLicensesLimit;
     /**
      * 
      *
@@ -87,6 +107,12 @@ class PoolStatus
      *
      * @var int
      */
+    protected $quarantinedUsers;
+    /**
+     * 
+     *
+     * @var int
+     */
     protected $registered;
     /**
      * 
@@ -124,6 +150,7 @@ class PoolStatus
      */
     public function setBatteryPowered(int $batteryPowered) : self
     {
+        $this->initialized['batteryPowered'] = true;
         $this->batteryPowered = $batteryPowered;
         return $this;
     }
@@ -145,6 +172,7 @@ class PoolStatus
      */
     public function setConnected(int $connected) : self
     {
+        $this->initialized['connected'] = true;
         $this->connected = $connected;
         return $this;
     }
@@ -166,6 +194,7 @@ class PoolStatus
      */
     public function setConnectionsLifetime(int $connectionsLifetime) : self
     {
+        $this->initialized['connectionsLifetime'] = true;
         $this->connectionsLifetime = $connectionsLifetime;
         return $this;
     }
@@ -187,7 +216,52 @@ class PoolStatus
      */
     public function setConnectionsPeak(int $connectionsPeak) : self
     {
+        $this->initialized['connectionsPeak'] = true;
         $this->connectionsPeak = $connectionsPeak;
+        return $this;
+    }
+    /**
+     * 
+     *
+     * @return int
+     */
+    public function getDeviceLicensesAvailable() : int
+    {
+        return $this->deviceLicensesAvailable;
+    }
+    /**
+     * 
+     *
+     * @param int $deviceLicensesAvailable
+     *
+     * @return self
+     */
+    public function setDeviceLicensesAvailable(int $deviceLicensesAvailable) : self
+    {
+        $this->initialized['deviceLicensesAvailable'] = true;
+        $this->deviceLicensesAvailable = $deviceLicensesAvailable;
+        return $this;
+    }
+    /**
+     * 
+     *
+     * @return int
+     */
+    public function getDeviceLicensesLimit() : int
+    {
+        return $this->deviceLicensesLimit;
+    }
+    /**
+     * 
+     *
+     * @param int $deviceLicensesLimit
+     *
+     * @return self
+     */
+    public function setDeviceLicensesLimit(int $deviceLicensesLimit) : self
+    {
+        $this->initialized['deviceLicensesLimit'] = true;
+        $this->deviceLicensesLimit = $deviceLicensesLimit;
         return $this;
     }
     /**
@@ -208,6 +282,7 @@ class PoolStatus
      */
     public function setDisconnected(int $disconnected) : self
     {
+        $this->initialized['disconnected'] = true;
         $this->disconnected = $disconnected;
         return $this;
     }
@@ -229,6 +304,7 @@ class PoolStatus
      */
     public function setLowBatteries(int $lowBatteries) : self
     {
+        $this->initialized['lowBatteries'] = true;
         $this->lowBatteries = $lowBatteries;
         return $this;
     }
@@ -250,6 +326,7 @@ class PoolStatus
      */
     public function setNACdisconnected(int $nACdisconnected) : self
     {
+        $this->initialized['nACdisconnected'] = true;
         $this->nACdisconnected = $nACdisconnected;
         return $this;
     }
@@ -271,6 +348,7 @@ class PoolStatus
      */
     public function setNACquarantined(int $nACquarantined) : self
     {
+        $this->initialized['nACquarantined'] = true;
         $this->nACquarantined = $nACquarantined;
         return $this;
     }
@@ -292,6 +370,7 @@ class PoolStatus
      */
     public function setNACremediated(int $nACremediated) : self
     {
+        $this->initialized['nACremediated'] = true;
         $this->nACremediated = $nACremediated;
         return $this;
     }
@@ -313,6 +392,7 @@ class PoolStatus
      */
     public function setNACwarned(int $nACwarned) : self
     {
+        $this->initialized['nACwarned'] = true;
         $this->nACwarned = $nACwarned;
         return $this;
     }
@@ -334,6 +414,7 @@ class PoolStatus
      */
     public function setNewDevices(int $newDevices) : self
     {
+        $this->initialized['newDevices'] = true;
         $this->newDevices = $newDevices;
         return $this;
     }
@@ -355,6 +436,7 @@ class PoolStatus
      */
     public function setNewUsers(int $newUsers) : self
     {
+        $this->initialized['newUsers'] = true;
         $this->newUsers = $newUsers;
         return $this;
     }
@@ -376,7 +458,30 @@ class PoolStatus
      */
     public function setQuarantinedDevices(int $quarantinedDevices) : self
     {
+        $this->initialized['quarantinedDevices'] = true;
         $this->quarantinedDevices = $quarantinedDevices;
+        return $this;
+    }
+    /**
+     * 
+     *
+     * @return int
+     */
+    public function getQuarantinedUsers() : int
+    {
+        return $this->quarantinedUsers;
+    }
+    /**
+     * 
+     *
+     * @param int $quarantinedUsers
+     *
+     * @return self
+     */
+    public function setQuarantinedUsers(int $quarantinedUsers) : self
+    {
+        $this->initialized['quarantinedUsers'] = true;
+        $this->quarantinedUsers = $quarantinedUsers;
         return $this;
     }
     /**
@@ -397,6 +502,7 @@ class PoolStatus
      */
     public function setRegistered(int $registered) : self
     {
+        $this->initialized['registered'] = true;
         $this->registered = $registered;
         return $this;
     }
@@ -418,6 +524,7 @@ class PoolStatus
      */
     public function setRegisteredUsers(int $registeredUsers) : self
     {
+        $this->initialized['registeredUsers'] = true;
         $this->registeredUsers = $registeredUsers;
         return $this;
     }
@@ -439,6 +546,7 @@ class PoolStatus
      */
     public function setSessions(int $sessions) : self
     {
+        $this->initialized['sessions'] = true;
         $this->sessions = $sessions;
         return $this;
     }
@@ -460,6 +568,7 @@ class PoolStatus
      */
     public function setUnreachable(int $unreachable) : self
     {
+        $this->initialized['unreachable'] = true;
         $this->unreachable = $unreachable;
         return $this;
     }

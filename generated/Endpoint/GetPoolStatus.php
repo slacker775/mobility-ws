@@ -38,7 +38,7 @@ class GetPoolStatus extends \Mobility\Runtime\Client\BaseEndpoint implements \Mo
         $optionsResolver->setDefined(array('lowBatteryThreshold'));
         $optionsResolver->setRequired(array());
         $optionsResolver->setDefaults(array('lowBatteryThreshold' => 10));
-        $optionsResolver->setAllowedTypes('lowBatteryThreshold', array('int'));
+        $optionsResolver->addAllowedTypes('lowBatteryThreshold', array('int'));
         return $optionsResolver;
     }
     /**
@@ -47,8 +47,10 @@ class GetPoolStatus extends \Mobility\Runtime\Client\BaseEndpoint implements \Mo
      *
      * @return null|\Mobility\Model\PoolStatusResponse
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Mobility\\Model\\PoolStatusResponse', 'json');
         }
