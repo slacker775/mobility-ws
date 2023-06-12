@@ -41,10 +41,10 @@ class GetNetworkRoaming extends \Mobility\Runtime\Client\BaseEndpoint implements
         $optionsResolver->setDefined(array('deviceGroup', 'userGroup', 'startDate', 'endDate'));
         $optionsResolver->setRequired(array());
         $optionsResolver->setDefaults(array());
-        $optionsResolver->setAllowedTypes('deviceGroup', array('string'));
-        $optionsResolver->setAllowedTypes('userGroup', array('string'));
-        $optionsResolver->setAllowedTypes('startDate', array('string'));
-        $optionsResolver->setAllowedTypes('endDate', array('string'));
+        $optionsResolver->addAllowedTypes('deviceGroup', array('string'));
+        $optionsResolver->addAllowedTypes('userGroup', array('string'));
+        $optionsResolver->addAllowedTypes('startDate', array('string'));
+        $optionsResolver->addAllowedTypes('endDate', array('string'));
         return $optionsResolver;
     }
     /**
@@ -53,8 +53,10 @@ class GetNetworkRoaming extends \Mobility\Runtime\Client\BaseEndpoint implements
      *
      * @return null|\Mobility\Model\NetworkRoamingResponse
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Mobility\\Model\\NetworkRoamingResponse', 'json');
         }

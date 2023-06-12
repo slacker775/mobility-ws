@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
-  title: 'Netmotion Mobility Web Services API'
-  version: '11.75'
+  title: 'Absolute Secure Access API'
+  version: '12.50'
 security:
-  - basicAuth: []
+  - basicAuth: [ ]
 servers:
   - url: '{server}'
     variables:
@@ -11,10 +11,10 @@ servers:
         default: https://api.example.com
 paths:
   /WebService/ConnectionStatus:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info
+        - WebService
       parameters:
         - in: query
           name: deviceId
@@ -53,19 +53,19 @@ paths:
           required: false
           schema:
             type: integer
+      operationId: getConnectionStatus
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ConnectionStatusResponse'
-      operationId: getConnectionStatus
   /WebService/Device:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info    
+        - WebService
       parameters:
         - in: query
           name: name
@@ -97,19 +97,367 @@ paths:
           required: false
           schema:
             type: integer
+      operationId: getDevice
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeviceResponse'
-      operationId: getDevice
-  /WebService/NetworkRoaming:
-    parameters: []
+  /WebControl/device:
     get:
       tags:
-        - info    
+        - WebControl
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: group
+          schema:
+            type: string
+      operationId: getDevices
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlDeviceResponse'
+    put:
+      tags:
+        - WebControl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ControlDevice'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlDevice'
+  /WebControl/device/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlDevice'
+    delete:
+      tags:
+        - WebControl
+      operationId: deleteDevice
+      responses:
+        200:
+          $ref: '#/components/responses/Success'
+        404:
+          $ref: '#/components/responses/NotFound'
+  /WebControl/device/{id}/{action}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: action
+        required: true
+        schema:
+          type: string
+          enum: [ disconnect, reconnect ]
+    put:
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Success
+  /WebControl/deviceGroup:
+    get:
+      tags:
+        - WebControl
+      description: Get Device Groups
+      operationId: getDeviceGroups
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceGroupResponse'
+    post:
+      tags:
+        - WebControl
+      description: Create a new Device Group
+      operationId: createDeviceGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceGroup'
+      responses:
+        200:
+          description: Success
+    put:
+      tags:
+        - WebControl
+      description: Update a Device Group
+      operationId: updateDeviceGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceGroup'
+      responses:
+        200:
+          description: Success
+  /WebControl/deviceGroup/{name}:
+    parameters:
+      - in: path
+        name: name
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - WebControl
+      description: Get a Device Group
+      operationId: getDeviceGroup
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceGroup'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - WebControl
+      description: Delete a Device Group
+      operationId: deleteDeviceGroup
+      responses:
+        200:
+          description: Success
+        404:
+          $ref: '#/components/responses/NotFound'
+  /WebControl/hostGroup:
+    get:
+      operationId: getHostGroups
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostGroup'
+    post:
+      operationId: createHostGroup
+      tags:
+        - WebControl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostGroup'
+      responses:
+        201:
+          description: Created
+    put:
+      operationId: updateHostGroup
+      tags:
+        - WebControl
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HostGroup'
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HostGroup'
+        404:
+          $ref: '#/components/responses/NotFound'
+  /WebControl/hostGroup/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getHostGroup
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Success
+    put:
+      operationId: updateHostGroupById
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Success
+    delete:
+      operationId: deleteHostGroup
+      tags:
+        - WebControl
+      responses:
+        200:
+          description: Success
+  /WebControl/user:
+    parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: group
+        in: query
+        schema:
+          type: string
+    get:
+      tags:
+        - WebControl
+      description: Get all users
+      operationId: getUsers
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlUserResponse'
+    post:
+      tags:
+        - WebControl
+      description: Create a user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ControlUser'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlUser'
+    put:
+      tags:
+        - WebControl
+      description: Update a user
+      operationId: updateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ControlUser'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlUser'
+  /WebControl/user/{domain}/{name}:
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: domain
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - WebControl
+      description: Get user by name and domain
+      operationId: getUserByDomain
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlUser'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - WebControl
+      description: Delete a user with domain
+      operationId: deleteUserByDomain
+      responses:
+        200:
+          $ref: '#/components/responses/Success'
+        404:
+          $ref: '#/components/responses/NotFound'
+  /WebControl/user/{name}:
+    parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - WebControl
+      description: Get user by name
+      operationId: getUserByName
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ControlUser'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - WebControl
+      description: Delete a user by name
+      operationId: deleteUserByName
+      responses:
+        200:
+          $ref: '#/components/responses/Success'
+        404:
+          $ref: '#/components/responses/NotFound'
+  /WebService/NetworkRoaming:
+    parameters: [ ]
+    get:
+      tags:
+        - WebService
       parameters:
         - in: query
           name: deviceGroup
@@ -132,7 +480,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
@@ -140,10 +488,10 @@ paths:
                 $ref: '#/components/schemas/NetworkRoamingResponse'
       operationId: getNetworkRoaming
   /WebService/NetworkUsage:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info    
+        - WebService
       parameters:
         - in: query
           name: user
@@ -166,7 +514,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
@@ -174,10 +522,10 @@ paths:
                 $ref: '#/components/schemas/NetworkUsageResponse'
       operationId: getNetworkUsage
   /WebService/PoolStatus:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info    
+        - WebService
       parameters:
         - in: query
           name: lowBatteryThreshold
@@ -187,7 +535,7 @@ paths:
             type: integer
             default: 10
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
@@ -195,10 +543,10 @@ paths:
                 $ref: '#/components/schemas/PoolStatusResponse'
       operationId: getPoolStatus
   /WebService/SessionStatus:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info    
+        - WebService
       parameters:
         - in: query
           name: serverName
@@ -236,7 +584,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
@@ -244,10 +592,10 @@ paths:
                 $ref: '#/components/schemas/SessionStatusResponse'
       operationId: getSessionStatus
   /WebService/User:
-    parameters: []
+    parameters: [ ]
     get:
       tags:
-        - info    
+        - WebService
       parameters:
         - in: query
           name: name
@@ -275,7 +623,7 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        200:
           description: Successful Response
           content:
             application/json:
@@ -287,6 +635,19 @@ components:
     basicAuth:
       type: http
       scheme: basic
+  responses:
+    Success:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Address:
       type: object
@@ -294,7 +655,7 @@ components:
         ip:
           type: string
         port:
-          type: integer
+          type: string
     ConnectionState:
       type: object
       properties:
@@ -388,6 +749,86 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Device'
+    DeviceGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        deviceCount:
+          type: number
+        quarantined:
+          type: boolean
+    DeviceGroupResponse:
+      type: object
+      properties:
+        deviceGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceGroup'
+    ControlDevice:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        deviceGroup:
+          type: string
+        operatingSystem:
+          type: string
+        registered:
+          type: string
+          format: date-time
+        lastConnect:
+          type: string
+        staticAddress:
+          type: string
+        connected:
+          type: boolean
+        quarantined:
+          type: boolean
+    ControlDeviceResponse:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ControlDevice'
+    Error:
+      type: object
+      properties:
+        status:
+          type: number
+        code:
+          type: number
+        message:
+          type: string
+    HostGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          nullable: true
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        lastModified:
+          type: string
+          format: date-time
+        hosts:
+          type: array
+          items:
+            type: string
+    HostGroups:
+      type: array
+      items:
+        $ref: '#/components/schemas/HostGroup'
     NetworkRoaming:
       type: object
       properties:
@@ -439,6 +880,10 @@ components:
           type: integer
         connectionsPeak:
           type: integer
+        deviceLicensesAvailable:
+          type: integer
+        deviceLicensesLimit:
+          type: integer
         disconnected:
           type: integer
         lowBatteries:
@@ -457,6 +902,8 @@ components:
           type: integer
         quarantinedDevices:
           type: integer
+        quarantinedUsers:
+          type: integer
         registered:
           type: integer
         registeredUsers:
@@ -471,17 +918,15 @@ components:
         type:
           type: string
         poolStatus:
-          nullable: true
-          oneOf:
-            - $ref: '#/components/schemas/PoolStatus'
-        serverStatus:
+          $ref: '#/components/schemas/PoolStatus'
+        serverStatuses:
           type: array
           items:
             $ref: '#/components/schemas/ServerStatus'
     ServerStatus:
       type: object
       properties:
-        address:
+        addresses:
           type: array
           items:
             $ref: '#/components/schemas/Address'
@@ -504,7 +949,7 @@ components:
         status:
           type: string
         uptimeMinutes:
-          type: string
+          type: integer
         utilization:
           type: string
         version:
@@ -612,4 +1057,30 @@ components:
           type: integer
         totalPages:
           type: integer
-        
+    ControlUser:
+      type: object
+      properties:
+        name:
+          type: string
+        domain:
+          type: string
+        username:
+          type: string
+        userGroup:
+          type: string
+        firstLogon:
+          type: string
+        lastLogon:
+          type: string
+        lastDeviceName:
+          type: string
+        quarantined:
+          type: boolean
+    ControlUserResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/ControlUser'
+

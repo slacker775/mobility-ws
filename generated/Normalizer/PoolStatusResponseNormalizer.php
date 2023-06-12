@@ -4,6 +4,7 @@ namespace Mobility\Normalizer;
 
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Mobility\Runtime\Normalizer\CheckArray;
+use Mobility\Runtime\Normalizer\ValidatorTrait;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -16,14 +17,18 @@ class PoolStatusResponseNormalizer implements DenormalizerInterface, NormalizerI
     use DenormalizerAwareTrait;
     use NormalizerAwareTrait;
     use CheckArray;
-    public function supportsDenormalization($data, $type, $format = null)
+    use ValidatorTrait;
+    public function supportsDenormalization($data, $type, $format = null, array $context = array()) : bool
     {
         return $type === 'Mobility\\Model\\PoolStatusResponse';
     }
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null, array $context = array()) : bool
     {
         return is_object($data) && get_class($data) === 'Mobility\\Model\\PoolStatusResponse';
     }
+    /**
+     * @return mixed
+     */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
         if (isset($data['$ref'])) {
@@ -38,37 +43,50 @@ class PoolStatusResponseNormalizer implements DenormalizerInterface, NormalizerI
         }
         if (\array_key_exists('type', $data)) {
             $object->setType($data['type']);
+            unset($data['type']);
         }
-        if (\array_key_exists('poolStatus', $data) && $data['poolStatus'] !== null) {
-            $object->setPoolStatus($data['poolStatus']);
+        if (\array_key_exists('poolStatus', $data)) {
+            $object->setPoolStatus($this->denormalizer->denormalize($data['poolStatus'], 'Mobility\\Model\\PoolStatus', 'json', $context));
+            unset($data['poolStatus']);
         }
-        elseif (\array_key_exists('poolStatus', $data) && $data['poolStatus'] === null) {
-            $object->setPoolStatus(null);
-        }
-        if (\array_key_exists('serverStatus', $data)) {
+        if (\array_key_exists('serverStatuses', $data)) {
             $values = array();
-            foreach ($data['serverStatus'] as $value) {
+            foreach ($data['serverStatuses'] as $value) {
                 $values[] = $this->denormalizer->denormalize($value, 'Mobility\\Model\\ServerStatus', 'json', $context);
             }
-            $object->setServerStatus($values);
+            $object->setServerStatuses($values);
+            unset($data['serverStatuses']);
+        }
+        foreach ($data as $key => $value_1) {
+            if (preg_match('/.*/', (string) $key)) {
+                $object[$key] = $value_1;
+            }
         }
         return $object;
     }
+    /**
+     * @return array|string|int|float|bool|\ArrayObject|null
+     */
     public function normalize($object, $format = null, array $context = array())
     {
         $data = array();
-        if (null !== $object->getType()) {
+        if ($object->isInitialized('type') && null !== $object->getType()) {
             $data['type'] = $object->getType();
         }
-        if (null !== $object->getPoolStatus()) {
-            $data['poolStatus'] = $object->getPoolStatus();
+        if ($object->isInitialized('poolStatus') && null !== $object->getPoolStatus()) {
+            $data['poolStatus'] = $this->normalizer->normalize($object->getPoolStatus(), 'json', $context);
         }
-        if (null !== $object->getServerStatus()) {
+        if ($object->isInitialized('serverStatuses') && null !== $object->getServerStatuses()) {
             $values = array();
-            foreach ($object->getServerStatus() as $value) {
+            foreach ($object->getServerStatuses() as $value) {
                 $values[] = $this->normalizer->normalize($value, 'json', $context);
             }
-            $data['serverStatus'] = $values;
+            $data['serverStatuses'] = $values;
+        }
+        foreach ($object as $key => $value_1) {
+            if (preg_match('/.*/', (string) $key)) {
+                $data[$key] = $value_1;
+            }
         }
         return $data;
     }

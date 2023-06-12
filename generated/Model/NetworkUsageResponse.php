@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class NetworkUsageResponse
+class NetworkUsageResponse extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -34,6 +42,7 @@ class NetworkUsageResponse
      */
     public function setType(string $type) : self
     {
+        $this->initialized['type'] = true;
         $this->type = $type;
         return $this;
     }
@@ -55,6 +64,7 @@ class NetworkUsageResponse
      */
     public function setNetworkUsage(array $networkUsage) : self
     {
+        $this->initialized['networkUsage'] = true;
         $this->networkUsage = $networkUsage;
         return $this;
     }

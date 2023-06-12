@@ -44,13 +44,13 @@ class GetConnectionStatus extends \Mobility\Runtime\Client\BaseEndpoint implemen
         $optionsResolver->setDefined(array('deviceId', 'deviceName', 'group', 'startDate', 'endDate', 'page', 'devicesPerPage'));
         $optionsResolver->setRequired(array());
         $optionsResolver->setDefaults(array());
-        $optionsResolver->setAllowedTypes('deviceId', array('string'));
-        $optionsResolver->setAllowedTypes('deviceName', array('string'));
-        $optionsResolver->setAllowedTypes('group', array('string'));
-        $optionsResolver->setAllowedTypes('startDate', array('string'));
-        $optionsResolver->setAllowedTypes('endDate', array('string'));
-        $optionsResolver->setAllowedTypes('page', array('int'));
-        $optionsResolver->setAllowedTypes('devicesPerPage', array('int'));
+        $optionsResolver->addAllowedTypes('deviceId', array('string'));
+        $optionsResolver->addAllowedTypes('deviceName', array('string'));
+        $optionsResolver->addAllowedTypes('group', array('string'));
+        $optionsResolver->addAllowedTypes('startDate', array('string'));
+        $optionsResolver->addAllowedTypes('endDate', array('string'));
+        $optionsResolver->addAllowedTypes('page', array('int'));
+        $optionsResolver->addAllowedTypes('devicesPerPage', array('int'));
         return $optionsResolver;
     }
     /**
@@ -59,8 +59,10 @@ class GetConnectionStatus extends \Mobility\Runtime\Client\BaseEndpoint implemen
      *
      * @return null|\Mobility\Model\ConnectionStatusResponse
      */
-    protected function transformResponseBody(string $body, int $status, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
+        $status = $response->getStatusCode();
+        $body = (string) $response->getBody();
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Mobility\\Model\\ConnectionStatusResponse', 'json');
         }

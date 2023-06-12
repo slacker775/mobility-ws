@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class Device
+class Device extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -88,6 +96,7 @@ class Device
      */
     public function setDeviceGroup(string $deviceGroup) : self
     {
+        $this->initialized['deviceGroup'] = true;
         $this->deviceGroup = $deviceGroup;
         return $this;
     }
@@ -109,6 +118,7 @@ class Device
      */
     public function setDisconnectReason(string $disconnectReason) : self
     {
+        $this->initialized['disconnectReason'] = true;
         $this->disconnectReason = $disconnectReason;
         return $this;
     }
@@ -130,6 +140,7 @@ class Device
      */
     public function setLastConnect(?\DateTime $lastConnect) : self
     {
+        $this->initialized['lastConnect'] = true;
         $this->lastConnect = $lastConnect;
         return $this;
     }
@@ -151,6 +162,7 @@ class Device
      */
     public function setLastDisconnect(?\DateTime $lastDisconnect) : self
     {
+        $this->initialized['lastDisconnect'] = true;
         $this->lastDisconnect = $lastDisconnect;
         return $this;
     }
@@ -172,6 +184,7 @@ class Device
      */
     public function setLastUser(string $lastUser) : self
     {
+        $this->initialized['lastUser'] = true;
         $this->lastUser = $lastUser;
         return $this;
     }
@@ -193,6 +206,7 @@ class Device
      */
     public function setLocalityVersion(string $localityVersion) : self
     {
+        $this->initialized['localityVersion'] = true;
         $this->localityVersion = $localityVersion;
         return $this;
     }
@@ -214,6 +228,7 @@ class Device
      */
     public function setMobilityVersion(string $mobilityVersion) : self
     {
+        $this->initialized['mobilityVersion'] = true;
         $this->mobilityVersion = $mobilityVersion;
         return $this;
     }
@@ -235,6 +250,7 @@ class Device
      */
     public function setName(string $name) : self
     {
+        $this->initialized['name'] = true;
         $this->name = $name;
         return $this;
     }
@@ -256,6 +272,7 @@ class Device
      */
     public function setOperatingSystem(string $operatingSystem) : self
     {
+        $this->initialized['operatingSystem'] = true;
         $this->operatingSystem = $operatingSystem;
         return $this;
     }
@@ -277,6 +294,7 @@ class Device
      */
     public function setPid(string $pid) : self
     {
+        $this->initialized['pid'] = true;
         $this->pid = $pid;
         return $this;
     }
@@ -298,6 +316,7 @@ class Device
      */
     public function setRegistered(\DateTime $registered) : self
     {
+        $this->initialized['registered'] = true;
         $this->registered = $registered;
         return $this;
     }

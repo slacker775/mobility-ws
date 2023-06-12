@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class Address
+class Address extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -13,7 +21,7 @@ class Address
     /**
      * 
      *
-     * @var int
+     * @var string
      */
     protected $port;
     /**
@@ -34,27 +42,29 @@ class Address
      */
     public function setIp(string $ip) : self
     {
+        $this->initialized['ip'] = true;
         $this->ip = $ip;
         return $this;
     }
     /**
      * 
      *
-     * @return int
+     * @return string
      */
-    public function getPort() : int
+    public function getPort() : string
     {
         return $this->port;
     }
     /**
      * 
      *
-     * @param int $port
+     * @param string $port
      *
      * @return self
      */
-    public function setPort(int $port) : self
+    public function setPort(string $port) : self
     {
+        $this->initialized['port'] = true;
         $this->port = $port;
         return $this;
     }

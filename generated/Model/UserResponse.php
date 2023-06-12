@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class UserResponse
+class UserResponse extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -46,6 +54,7 @@ class UserResponse
      */
     public function setType(string $type) : self
     {
+        $this->initialized['type'] = true;
         $this->type = $type;
         return $this;
     }
@@ -67,6 +76,7 @@ class UserResponse
      */
     public function setUser(array $user) : self
     {
+        $this->initialized['user'] = true;
         $this->user = $user;
         return $this;
     }
@@ -88,6 +98,7 @@ class UserResponse
      */
     public function setCurrentPage(int $currentPage) : self
     {
+        $this->initialized['currentPage'] = true;
         $this->currentPage = $currentPage;
         return $this;
     }
@@ -109,6 +120,7 @@ class UserResponse
      */
     public function setTotalPages(int $totalPages) : self
     {
+        $this->initialized['totalPages'] = true;
         $this->totalPages = $totalPages;
         return $this;
     }

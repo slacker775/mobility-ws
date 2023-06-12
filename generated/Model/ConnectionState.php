@@ -2,8 +2,16 @@
 
 namespace Mobility\Model;
 
-class ConnectionState
+class ConnectionState extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
@@ -58,6 +66,7 @@ class ConnectionState
      */
     public function setPop(string $pop) : self
     {
+        $this->initialized['pop'] = true;
         $this->pop = $pop;
         return $this;
     }
@@ -79,6 +88,7 @@ class ConnectionState
      */
     public function setServerMachineName(?string $serverMachineName) : self
     {
+        $this->initialized['serverMachineName'] = true;
         $this->serverMachineName = $serverMachineName;
         return $this;
     }
@@ -100,6 +110,7 @@ class ConnectionState
      */
     public function setState(string $state) : self
     {
+        $this->initialized['state'] = true;
         $this->state = $state;
         return $this;
     }
@@ -121,6 +132,7 @@ class ConnectionState
      */
     public function setTimestamp(\DateTime $timestamp) : self
     {
+        $this->initialized['timestamp'] = true;
         $this->timestamp = $timestamp;
         return $this;
     }
@@ -142,6 +154,7 @@ class ConnectionState
      */
     public function setUserName(?string $userName) : self
     {
+        $this->initialized['userName'] = true;
         $this->userName = $userName;
         return $this;
     }
@@ -163,6 +176,7 @@ class ConnectionState
      */
     public function setVip(string $vip) : self
     {
+        $this->initialized['vip'] = true;
         $this->vip = $vip;
         return $this;
     }

@@ -2,14 +2,22 @@
 
 namespace Mobility\Model;
 
-class ServerStatus
+class ServerStatus extends \ArrayObject
 {
+    /**
+     * @var array
+     */
+    protected $initialized = array();
+    public function isInitialized($property) : bool
+    {
+        return array_key_exists($property, $this->initialized);
+    }
     /**
      * 
      *
      * @var Address[]
      */
-    protected $address;
+    protected $addresses;
     /**
      * 
      *
@@ -67,7 +75,7 @@ class ServerStatus
     /**
      * 
      *
-     * @var string
+     * @var int
      */
     protected $uptimeMinutes;
     /**
@@ -87,20 +95,21 @@ class ServerStatus
      *
      * @return Address[]
      */
-    public function getAddress() : array
+    public function getAddresses() : array
     {
-        return $this->address;
+        return $this->addresses;
     }
     /**
      * 
      *
-     * @param Address[] $address
+     * @param Address[] $addresses
      *
      * @return self
      */
-    public function setAddress(array $address) : self
+    public function setAddresses(array $addresses) : self
     {
-        $this->address = $address;
+        $this->initialized['addresses'] = true;
+        $this->addresses = $addresses;
         return $this;
     }
     /**
@@ -121,6 +130,7 @@ class ServerStatus
      */
     public function setConnectionPeak(int $connectionPeak) : self
     {
+        $this->initialized['connectionPeak'] = true;
         $this->connectionPeak = $connectionPeak;
         return $this;
     }
@@ -142,6 +152,7 @@ class ServerStatus
      */
     public function setConnections(int $connections) : self
     {
+        $this->initialized['connections'] = true;
         $this->connections = $connections;
         return $this;
     }
@@ -163,6 +174,7 @@ class ServerStatus
      */
     public function setCpu(string $cpu) : self
     {
+        $this->initialized['cpu'] = true;
         $this->cpu = $cpu;
         return $this;
     }
@@ -184,6 +196,7 @@ class ServerStatus
      */
     public function setName(string $name) : self
     {
+        $this->initialized['name'] = true;
         $this->name = $name;
         return $this;
     }
@@ -205,6 +218,7 @@ class ServerStatus
      */
     public function setNetwork(string $network) : self
     {
+        $this->initialized['network'] = true;
         $this->network = $network;
         return $this;
     }
@@ -226,6 +240,7 @@ class ServerStatus
      */
     public function setNonPaged(string $nonPaged) : self
     {
+        $this->initialized['nonPaged'] = true;
         $this->nonPaged = $nonPaged;
         return $this;
     }
@@ -247,6 +262,7 @@ class ServerStatus
      */
     public function setPaged(string $paged) : self
     {
+        $this->initialized['paged'] = true;
         $this->paged = $paged;
         return $this;
     }
@@ -268,6 +284,7 @@ class ServerStatus
      */
     public function setPid(string $pid) : self
     {
+        $this->initialized['pid'] = true;
         $this->pid = $pid;
         return $this;
     }
@@ -289,27 +306,29 @@ class ServerStatus
      */
     public function setStatus(string $status) : self
     {
+        $this->initialized['status'] = true;
         $this->status = $status;
         return $this;
     }
     /**
      * 
      *
-     * @return string
+     * @return int
      */
-    public function getUptimeMinutes() : string
+    public function getUptimeMinutes() : int
     {
         return $this->uptimeMinutes;
     }
     /**
      * 
      *
-     * @param string $uptimeMinutes
+     * @param int $uptimeMinutes
      *
      * @return self
      */
-    public function setUptimeMinutes(string $uptimeMinutes) : self
+    public function setUptimeMinutes(int $uptimeMinutes) : self
     {
+        $this->initialized['uptimeMinutes'] = true;
         $this->uptimeMinutes = $uptimeMinutes;
         return $this;
     }
@@ -331,6 +350,7 @@ class ServerStatus
      */
     public function setUtilization(string $utilization) : self
     {
+        $this->initialized['utilization'] = true;
         $this->utilization = $utilization;
         return $this;
     }
@@ -352,6 +372,7 @@ class ServerStatus
      */
     public function setVersion(string $version) : self
     {
+        $this->initialized['version'] = true;
         $this->version = $version;
         return $this;
     }
