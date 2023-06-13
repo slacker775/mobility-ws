@@ -50,7 +50,7 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
             unset($data['bssid']);
         }
         if (\array_key_exists('connectTime', $data)) {
-            $object->setConnectTime(\DateTime::createFromFormat('Y-m-d\\TH:i:sP', $data['connectTime']));
+            $object->setConnectTime($data['connectTime']);
             unset($data['connectTime']);
         }
         if (\array_key_exists('cpu', $data)) {
@@ -89,13 +89,6 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $object->setMobilityVersion($data['mobilityVersion']);
             unset($data['mobilityVersion']);
         }
-        if (\array_key_exists('model', $data) && $data['model'] !== null) {
-            $object->setModel($data['model']);
-            unset($data['model']);
-        }
-        elseif (\array_key_exists('model', $data) && $data['model'] === null) {
-            $object->setModel(null);
-        }
         if (\array_key_exists('nacLevel', $data)) {
             $object->setNacLevel($data['nacLevel']);
             unset($data['nacLevel']);
@@ -107,6 +100,10 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if (\array_key_exists('os', $data)) {
             $object->setOs($data['os']);
             unset($data['os']);
+        }
+        if (\array_key_exists('osver', $data)) {
+            $object->setOsver($data['osver']);
+            unset($data['osver']);
         }
         if (\array_key_exists('pid', $data)) {
             $object->setPid($data['pid']);
@@ -160,6 +157,10 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $object->setVirtualAddress($data['virtualAddress']);
             unset($data['virtualAddress']);
         }
+        if (\array_key_exists('virtualAddresses', $data)) {
+            $object->setVirtualAddresses($data['virtualAddresses']);
+            unset($data['virtualAddresses']);
+        }
         foreach ($data as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {
                 $object[$key] = $value;
@@ -180,7 +181,7 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
             $data['bssid'] = $object->getBssid();
         }
         if ($object->isInitialized('connectTime') && null !== $object->getConnectTime()) {
-            $data['connectTime'] = $object->getConnectTime()->format('Y-m-d\\TH:i:sP');
+            $data['connectTime'] = $object->getConnectTime();
         }
         if ($object->isInitialized('cpu') && null !== $object->getCpu()) {
             $data['cpu'] = $object->getCpu();
@@ -209,9 +210,6 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
         if ($object->isInitialized('mobilityVersion') && null !== $object->getMobilityVersion()) {
             $data['mobilityVersion'] = $object->getMobilityVersion();
         }
-        if ($object->isInitialized('model') && null !== $object->getModel()) {
-            $data['model'] = $object->getModel();
-        }
         if ($object->isInitialized('nacLevel') && null !== $object->getNacLevel()) {
             $data['nacLevel'] = $object->getNacLevel();
         }
@@ -220,6 +218,9 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
         }
         if ($object->isInitialized('os') && null !== $object->getOs()) {
             $data['os'] = $object->getOs();
+        }
+        if ($object->isInitialized('osver') && null !== $object->getOsver()) {
+            $data['osver'] = $object->getOsver();
         }
         if ($object->isInitialized('pid') && null !== $object->getPid()) {
             $data['pid'] = $object->getPid();
@@ -259,6 +260,9 @@ class SessionNormalizer implements DenormalizerInterface, NormalizerInterface, D
         }
         if ($object->isInitialized('virtualAddress') && null !== $object->getVirtualAddress()) {
             $data['virtualAddress'] = $object->getVirtualAddress();
+        }
+        if ($object->isInitialized('virtualAddresses') && null !== $object->getVirtualAddresses()) {
+            $data['virtualAddresses'] = $object->getVirtualAddresses();
         }
         foreach ($object as $key => $value) {
             if (preg_match('/.*/', (string) $key)) {

@@ -15,57 +15,29 @@ class SessionStatusResponse extends \ArrayObject
     /**
      * 
      *
-     * @var string
-     */
-    protected $type;
-    /**
-     * 
-     *
      * @var Session[]
      */
-    protected $session;
-    /**
-     * 
-     *
-     * @return string
-     */
-    public function getType() : string
-    {
-        return $this->type;
-    }
-    /**
-     * 
-     *
-     * @param string $type
-     *
-     * @return self
-     */
-    public function setType(string $type) : self
-    {
-        $this->initialized['type'] = true;
-        $this->type = $type;
-        return $this;
-    }
+    protected $sessionStatuses;
     /**
      * 
      *
      * @return Session[]
      */
-    public function getSession() : array
+    public function getSessionStatuses() : array
     {
-        return $this->session;
+        return $this->sessionStatuses;
     }
     /**
      * 
      *
-     * @param Session[] $session
+     * @param Session[] $sessionStatuses
      *
      * @return self
      */
-    public function setSession(array $session) : self
+    public function setSessionStatuses(array $sessionStatuses) : self
     {
-        $this->initialized['session'] = true;
-        $this->session = $session;
+        $this->initialized['sessionStatuses'] = true;
+        $this->sessionStatuses = $sessionStatuses;
         return $this;
     }
 }

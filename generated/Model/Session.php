@@ -27,7 +27,7 @@ class Session extends \ArrayObject
     /**
      * 
      *
-     * @var \DateTime
+     * @var string
      */
     protected $connectTime;
     /**
@@ -87,12 +87,6 @@ class Session extends \ArrayObject
     /**
      * 
      *
-     * @var string|null
-     */
-    protected $model;
-    /**
-     * 
-     *
      * @var string
      */
     protected $nacLevel;
@@ -108,6 +102,12 @@ class Session extends \ArrayObject
      * @var string
      */
     protected $os;
+    /**
+     * 
+     *
+     * @var string
+     */
+    protected $osver;
     /**
      * 
      *
@@ -189,6 +189,12 @@ class Session extends \ArrayObject
     /**
      * 
      *
+     * @var string
+     */
+    protected $virtualAddresses;
+    /**
+     * 
+     *
      * @return int
      */
     public function getBattery() : int
@@ -233,20 +239,20 @@ class Session extends \ArrayObject
     /**
      * 
      *
-     * @return \DateTime
+     * @return string
      */
-    public function getConnectTime() : \DateTime
+    public function getConnectTime() : string
     {
         return $this->connectTime;
     }
     /**
      * 
      *
-     * @param \DateTime $connectTime
+     * @param string $connectTime
      *
      * @return self
      */
-    public function setConnectTime(\DateTime $connectTime) : self
+    public function setConnectTime(string $connectTime) : self
     {
         $this->initialized['connectTime'] = true;
         $this->connectTime = $connectTime;
@@ -453,28 +459,6 @@ class Session extends \ArrayObject
     /**
      * 
      *
-     * @return string|null
-     */
-    public function getModel() : ?string
-    {
-        return $this->model;
-    }
-    /**
-     * 
-     *
-     * @param string|null $model
-     *
-     * @return self
-     */
-    public function setModel(?string $model) : self
-    {
-        $this->initialized['model'] = true;
-        $this->model = $model;
-        return $this;
-    }
-    /**
-     * 
-     *
      * @return string
      */
     public function getNacLevel() : string
@@ -536,6 +520,28 @@ class Session extends \ArrayObject
     {
         $this->initialized['os'] = true;
         $this->os = $os;
+        return $this;
+    }
+    /**
+     * 
+     *
+     * @return string
+     */
+    public function getOsver() : string
+    {
+        return $this->osver;
+    }
+    /**
+     * 
+     *
+     * @param string $osver
+     *
+     * @return self
+     */
+    public function setOsver(string $osver) : self
+    {
+        $this->initialized['osver'] = true;
+        $this->osver = $osver;
         return $this;
     }
     /**
@@ -822,6 +828,28 @@ class Session extends \ArrayObject
     {
         $this->initialized['virtualAddress'] = true;
         $this->virtualAddress = $virtualAddress;
+        return $this;
+    }
+    /**
+     * 
+     *
+     * @return string
+     */
+    public function getVirtualAddresses() : string
+    {
+        return $this->virtualAddresses;
+    }
+    /**
+     * 
+     *
+     * @param string $virtualAddresses
+     *
+     * @return self
+     */
+    public function setVirtualAddresses(string $virtualAddresses) : self
+    {
+        $this->initialized['virtualAddresses'] = true;
+        $this->virtualAddresses = $virtualAddresses;
         return $this;
     }
 }
